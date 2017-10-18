@@ -7,17 +7,18 @@
 
 /*DEFAULT CONFIGURATIONS*/
 
-#define MQTT_HOST			"192.168.1.100" //or "mqtt.yourdomain.com"
+#define MQTT_TOPIC			"kaiguan"
+#define MQTT_HOST			"bkysfwq.mqtt.iot.bj.baidubce.com" //or "mqtt.yourdomain.com"
 #define MQTT_PORT			1883
 #define MQTT_BUF_SIZE		1024
 #define MQTT_KEEPALIVE		120	 /*second*/
 
-#define MQTT_CLIENT_ID		"DVES_%08X"
-#define MQTT_USER			"DVES_USER"
-#define MQTT_PASS			"DVES_PASS"
+#define MQTT_CLIENT_ID		"DVES_002"
+#define MQTT_USER			"bkysfwq/esp8266"
+#define MQTT_PASS			"BAWEbiJgT0I23rIpCeI8dYTGSWYXDTAbR1p2XA+mS9s="
 
-#define STA_SSID "DVES_HOME"
-#define STA_PASS "yourpassword"
+#define STA_SSID "hhgwifi"
+#define STA_PASS "09011204"
 #define STA_TYPE AUTH_WPA2_PSK
 
 #define MQTT_RECONNECT_TIMEOUT 	5	/*second*/

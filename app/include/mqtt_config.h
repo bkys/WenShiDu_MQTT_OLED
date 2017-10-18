@@ -8,6 +8,7 @@
 /*DEFAULT CONFIGURATIONS*/
 
 #define MQTT_TOPIC			"kaiguan"
+
 #define MQTT_HOST			"bkysfwq.mqtt.iot.bj.baidubce.com" //or "mqtt.yourdomain.com"
 #define MQTT_PORT			1883
 #define MQTT_BUF_SIZE		1024
@@ -20,7 +21,6 @@
 #define STA_SSID "hhgwifi"
 #define STA_PASS "09011204"
 #define STA_TYPE AUTH_WPA2_PSK
-
 
 #define MQTT_RECONNECT_TIMEOUT 	5	/*second*/
 

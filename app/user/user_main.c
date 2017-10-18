@@ -38,9 +38,9 @@
 #include "user_interface.h"
 #include "mem.h"
 
-#include "dht.h"
+#include "dht.h"		//io0数据
 
-#include "i2c_oled.h"
+#include "i2c_oled.h"		//slc=io14，sda=io2
 
 MQTT_Client mqttClient;
 
@@ -133,23 +133,16 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 	dataBuf[data_len] = 0;
 
 	INFO("Receive topic: %s, data: %s \r\n", topicBuf, dataBuf);
-
 	if(strcmp(dataBuf,"guan")==0)//以字符串对比的方式，dataBuf与Guan字符串相等，也就是判断为收到的是“Guan”
 		{
 			INFO("GUAN BI LA \r\n");
-			GPIO_OUTPUT_SET(GPIO_ID_PIN(5),1);//设置gpio4位高
+			GPIO_OUTPUT_SET(GPIO_ID_PIN(5),1);//设置gpio5位高
 		}
 		else if(strcmp(dataBuf,"kai")==0)
 		{
 			INFO("DA KAI LA \r\n");
 			GPIO_OUTPUT_SET(GPIO_ID_PIN(5),0);
-		}
-		else if(strcmp(dataBuf,"zhuangtai")==0)
-				{
-					if(GPIO_INPUT_GET(GPIO_ID_PIN(5))){dataBuf="gaodianping";}
-					if(GPIO_INPUT_GET(GPIO_ID_PIN(5))){dataBuf="didianping";}
-				}
-		else
+		}else
 		{
 			INFO("WU XIAO ZI FU \r\n");
 		}

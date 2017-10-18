@@ -1,9 +1,9 @@
 #  copyright (c) 2010 Espressif System
 #
-ifndef PDIR
+ifndef PDIR			#如果主目录则
 
 endif
-
+#编译环境变量$(COMPILE)等于gcc则
 ifeq ($(COMPILE), gcc)
 	AR = xtensa-lx106-elf-ar
 	CC = xtensa-lx106-elf-gcc
@@ -20,12 +20,15 @@ else
 	OBJDUMP = xt-objdump
 endif
 
+#如果下面这几个变量没定义则进行定义
 BOOT?=none
 APP?=0
 SPI_SPEED?=40
 SPI_MODE?=QIO
 SPI_SIZE_MAP?=0
 
+#编译命令是：make COMPILE=gcc BOOT=$boot APP=$app SPI_SPEED=$spi_speed SPI_MODE=$spi_mode SPI_SIZE_MAP=$spi_size_map
+#分别对变量进行分析
 ifeq ($(BOOT), new)
     boot = new
 else
@@ -75,6 +78,7 @@ else
     endif
 endif
 
+#默认地址是0x01000，选择不同spi_size有不同的地址
 addr = 0x01000
 
 ifeq ($(SPI_SIZE_MAP), 1)
@@ -127,7 +131,7 @@ else
     endif
   endif
 endif
-
+#默认LD_FILE值，根据$(size_map)从ld目录选择不同的配置
 LD_FILE = $(LDDIR)/eagle.app.v6.ld
 
 ifneq ($(boot), none)
