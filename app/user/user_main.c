@@ -51,7 +51,8 @@ uint8 formatchar[200],formatcharsize,showformatchar[100];//¶¨ÒåÒ»¸ö×Ö·ûÊı×éÓÃÓÚ¸
 char* tttt="Wed Dec 07 16:34:45 2016";//ÓÃÓÚ´æ´¢»ñÈ¡µ½µÄÍøÂçÊ±¼ä
 char chshowtime[21]={""};//ÓÃÓÚ³ıĞÇÆÚÍâµÄ½ØÈ¡ºóµÄĞÅÏ¢£¬ÒòÎªoledÒ»ĞĞÖ»ÓĞ128ÏñËØ£¬Ò»¸ö×Ö·ûÕ¼ÓÃ6¸öÏñËØ
 
-void MypollDHTCb(void)
+//void MypollDHTCb(void)
+void wenshidu(void)
 {
 	pollDHTCb();
 
@@ -144,20 +145,33 @@ void mqttDataCb(uint32_t *args, const char* topic, uint32_t topic_len, const cha
 			INFO("DA KAI LA \r\n");
 			GPIO_OUTPUT_SET(GPIO_ID_PIN(5),0);
 		}
-		else if(strcmp(dataBuf,"zhuangtai")==0)
+		else if(strcmp(dataBuf,"zhuangtai")==0)//²éÑ¯io5Òı½ÅµÄµçÆ½¸ßµÍ
 				{
-					if(GPIO_INPUT_GET(GPIO_ID_PIN(5))){dataBuf="gaodianping";}
-					if(GPIO_INPUT_GET(GPIO_ID_PIN(5))){dataBuf="didianping";}
+					if(GPIO_INPUT_GET(GPIO_ID_PIN(5))){
+						if (mqttClient.connState == MQTT_DATA)
+							{
+
+								formatcharsize=os_sprintf(formatchar,"gaodianping");
+							    MQTT_Publish(&mqttClient, MQTT_TOPIC, formatchar, formatcharsize, 0, 0);
+							}
+					}
+					if(!GPIO_INPUT_GET(GPIO_ID_PIN(5))){
+						if (mqttClient.connState == MQTT_DATA)
+													{
+
+														formatcharsize=os_sprintf(formatchar,"didianping");
+													    MQTT_Publish(&mqttClient, MQTT_TOPIC, formatchar, formatcharsize, 0, 0);
+													}
+					}
 				}
-		else
+		else if(strcmp(dataBuf,"wenshidu")==0)//²éÑ¯ÎÂÊª¶È
+		{
+			wenshidu();
+		}else
 		{
 			INFO("WU XIAO ZI FU \r\n");
 		}
-	//·´À¡²éÑ¯Ö¸Áî
-	if(strcmp(dataBuf,"chaxun")==0)
-	{
-		MypollDHTCb();
-	}
+
 
 	os_free(topicBuf);
 	os_free(dataBuf);
@@ -253,9 +267,9 @@ void user_init(void)
 	WIFI_Connect(STA_SSID, STA_PASS, wifiConnectCb);
 
 	//ÉèÖÃÒ»¸öÊ±ÖÓ£¬Ã¿¸ôÖ¸¶¨µÄÊ±¼ä(10Ãë)µ÷ÓÃÒ»´ÎpollDHTCbº¯Êı¶ÁÈ¡ÎÂÊª¶ÈÖµ
-	os_timer_disarm(&dhtTimer);
-	os_timer_setfn(&dhtTimer, MypollDHTCb, NULL);
-	os_timer_arm(&dhtTimer, 10000, 1);
+//	os_timer_disarm(&dhtTimer);
+//	os_timer_setfn(&dhtTimer, MypollDHTCb, NULL);
+//	os_timer_arm(&dhtTimer, 10000, 1);
 
 
 	INFO("\r\nSystem started ...\r\n");
